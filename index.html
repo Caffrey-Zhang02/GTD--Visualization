@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>GTD-Visualization</title>
+    <script type="text/javascript" src="./package/dist/d3.min.js"></script>
+    <script src="./javaScripts/topojson-client.js"></script>
+    <script src="./javaScripts/d3-simple-slider.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./icons/fontello-3e219e74/css/play.css">
+    <link href="css/myCSS.css" rel="stylesheet" type="text/css"/>
+    <link href="css/complicate-style.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+
+
+<div id="main">
+    <div id="head">
+
+        <div style="height:100%;display: flex;align-items: center">
+            <a href="https://github.com/cafferyz/GTD-visualization" style="height: 125%">
+                <img src="imgs/LOGO.png" alt="GTD: Global Terrorism Database" style="float: left;height:100%"></a>
+            <div style="display: flex;flex-direction: column">
+                <div>
+                    <div id="head-title">
+                    全球恐袭五十年
+                </div>
+                    <div id="head-subtitle">
+                        ——恐 怖 主 义 数 据 可 视 化
+                    </div>
+                </div>
+
+<!--                <div id="head-subtitle2">
+                    Global Terrorism Data Visualization
+                </div>-->
+                <div style="margin:5px auto 0 0;color:rgba(255,255,255,0.8)">
+                    张恺 陈凯瑞 冯如茵 杨芷涵 于2023年6月8日
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="ordinary-excessive">
+        <div class="ordinary-excessive-card">
+            <br/>
+            <div class="fry_center">
+                恐怖主义多指个人和/或团体使用蓄意的暴力和恐惧来达到政治或意识形态目的。其形成原因繁多复杂，大多与分离主义运动、宗教极端主义或者特定的意识形态相关。恐怖主义的盛行除了会造成严重的人员伤亡和经济损失之外，还给当地人民带来巨大的心理恐惧、引发社会的动荡，并且会恶化部分国家的社会政治关系、激化了国际矛盾。几十年来，世界上的恐怖主义局势瞬息万变，一些地区积极进行反恐斗争并取得了成效，一些地区从社会的和平稳定逐渐走入了恐怖主义的无尽苦难，也有一些国家始终笼罩在恐怖主义的阴影之下。因此，我们对世界近52年来的恐怖主义数据进行可视化，旨在统计恐怖袭击造成的严重后果，并分析全球恐怖主义的发展局势。
+            </div>
+            <br/>
+            <div class="fry_center">
+                数据来源：由马里兰大学帕克分校维护的全球恐怖主义数据库（Global Terrorism Database，简称GTD）是一个数据全面准确、在学界享有权威的恐怖主义数据库。截至本作品完成时刻，该数据库共包含1970至2021共51年发生于世界各地的200,000余起恐怖事件，以及各个事件发生的具体时间、地理位置、武器信息、伤亡与后果等丰富数据。
+            </div>
+        </div>
+    </div>
+
+    <div id="yzh-chart">
+        <div class="map-title">
+            <br/>
+            五十年间，受害者的“鲜血”在流淌
+            <span class="map-subtitle">点击可重复播放“流血”动画</span>
+        </div>
+        <div id="chart"></div>
+    </div>
+    <div class="ordinary-excessive">
+
+        <div class="ordinary-excessive-card">
+            <div class="fry_center">
+                上图展示了近52年间全球恐怖袭击的事件数量与伤亡人数，恐怖袭击数量及其造成的伤亡人数呈波动型增长。在1970至1997年间，恐怖袭击数量与伤亡人数均呈现上升趋势，1997至2000年数量稍有缓和。步入21世纪后，由于911袭击事件的发生，2001年恐袭导致的伤亡人数成为了21世纪初期最多的一年。由于伊拉克战争和叙利亚内战等事件造成的社会混乱，21世纪的恐怖袭击逐年大幅增加。
+            </div>
+            <br/>
+            <div class="fry_center">
+                将视角聚焦至恐怖袭击的目标，平民是在袭击中遇害数量最多的类型，占全部人数的38%；此外，交通工具、检查点与交通管理者和象征着卫国与反恐的士兵也是恐怖分子进行反动袭击的主要目标之一。
+            </div>
+        </div>
+    </div>
+
+    <div  id='choropleth-map'>
+        <div class="map-title">
+            <br/>
+            面对恐怖主义，几乎没有国家能够独善其身
+            <span class="map-subtitle">
+                鼠标悬浮可单独显示该国时间趋势
+            </span>
+        </div>
+        <div id="map-title" class="map-title">
+            &nbsp&nbsp1970 年全球各国遭受恐怖袭击的次数
+        </div>
+        <svg id="my-dataviz" ></svg>
+        <div id="play-scale">
+            <svg id="my-color-scale" width="1600" height="800"></svg>
+            <div id="appendix">
+<!--                <div class="appendix-left">-->
+<!--                    数据来源: Global Terrorism Database-->
+<!--                </div>-->
+<!--                <div class="appendix-right">-->
+<!--                    Plot By: Caffery-->
+<!--                </div>-->
+            </div>
+            <div id="year_scale">
+                <div class="icon-play" ></div>
+                <div id="present_year">1970</div>
+                <div class="col-sm"><div id="slider-simple"></div></div>
+                <div id="last_year">2021</div>
+            </div>
+        </div>
+        <div class="tooltip" style="opacity: 0;position: absolute;top:0">
+            <div class="tooltip-head">
+                None
+            </div>
+            <div class="tooltip-plot-explanation">
+                <div class="tooltip-plot">
+
+                </div>
+                <div class="tooltip-explanation">
+                    <div class="content-main">
+                        The Number of Terrorist Attacks Happened in the USA in 2021 was 219
+                    </div>
+                    <div class="content-plain">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ordinary-excessive">
+        <div class="ordinary-excessive-card">
+            <div class="fry_center">
+                近52年间，世界始终面临着恐怖主义的挑战与威胁。上图将恐怖袭击事件细分至国家，对各国近52年间的恐怖袭击数量以时间轴地图的形式进行展示。1970年至1980年间，恐怖袭击主要发生在欧美地区，哥伦比亚、英国与意大利为恐怖袭击的频发地。1980年至1990年间，哥伦比亚与英国的恐怖袭击数量居高不下，并且扩散到秘鲁、法国、南非与东南亚的泰国等地。1990年至2000年间，世界恐怖袭击的重心逐渐转移至印度、俄罗斯、印度尼西亚等亚洲国家。2000年至今，恐怖主义在全球范围内盛行，印度、巴基斯坦与伊拉克等国成为了恐怖袭击的频发地。在恐怖主义的浪潮下，没有一个国家可以独善其身，世界各国需要团结起来，共同应对恐怖主义势力。
+            </div>
+        </div>
+    </div>
+    <div class="map-title">
+        <br/>
+        为何我们应该为生在中国而感到庆幸？
+    </div>
+    <div id="scatter-map-container">
+
+        <svg id="scatter-map"></svg>
+        <div id="compare-charts">
+            <div>
+                <div>中国与周边国家对比：</div>
+                <div id="aisa-countries-line"></div>
+            </div>
+
+            <div>
+                <div>聚焦中国：</div>
+                <div id="china-line"></div>
+            </div>
+        </div>
+    </div>
+    <div class="ordinary-excessive">
+        <div class="ordinary-excessive-card">
+            <div class="fry_center">
+                在恐怖主义全球盛行的情况下，中国的和平安定显得如此来之不易。上图详细展示了52年间中国及其邻近国家恐怖袭击事件的地图和发生数量的折线图。在左边的地图中，每个点都象征了一次恐怖袭击的发生，与中国临近的阿富汗、印度、巴基斯坦、以及菲律宾等国都是恐怖袭击的多发国，可见中国面临的反恐压力之大。在右边的折线图中，中国和其临近国的恐袭数量在时间变化上形成了鲜明的对比，在各个临近国的恐袭数量逐年上升的情况下，恐怖主义在中国本土却无法猖獗，这是中国的反恐政策取得的重大胜利。        </div>
+            </div>
+        </div>
+    </div>
+    <div class="map-title">
+        <br/>
+        恐怖袭击事件频发，究竟是谁在作乱？
+        <span class="map-subtitle">点击可单独查看该组织的活动情况</span>
+
+    </div>
+    <div id="charts-container">
+        <div id="zoom-in">
+            <div id="group-intro">
+                <div id="group-name"></div>
+                <div id="group-attack">
+                    <div id="group-attack-region"></div>
+                    <div id="group-attack-region-num"></div>
+                </div>
+            </div>
+            <div id="zoom-in-explanation">
+                <div id="squares-explanation">
+                    <!--        <div style="margin:10px">图例</div>-->
+                    <svg id="legend" width="200" height="60"></svg>
+                </div>
+                <div id="exact-num">
+                    <div id="event-num" class="exact-num">
+                        <span>袭击数量</span>
+                        <span class="exact-number"></span>
+                    </div>
+                    <div id="death-num" class="exact-num">
+                        <span>死亡人数</span>
+                        <span class="exact-number"></span>
+                    </div>
+                    <div id="wound-num" class="exact-num">
+                        <span>受伤人数</span>
+                        <span class="exact-number"></span>
+                    </div>
+                </div>
+            </div>
+            <svg id="myChart" width="800" height="620"></svg>
+        </div>
+
+        <div id="small-charts-container">
+
+        </div>
+    </div>
+
+    <div class="ordinary-excessive">
+        <div class="ordinary-excessive-card">
+            <div class="fry_center">
+                上图展示了各个恐怖组织近五十年来每个月恐怖活动的情况。其中，横轴表示年份、纵轴表示月份。顶部和底部的柱状图分别统计了恐怖组织造成的死亡人数和受伤人数，中间红色的热图体现了恐怖组织每月的活动次数。这张图详细介绍了每个恐怖组织活动的频繁时期、活动的规律的以及造成的严重后果。        </div>
+            </div>
+        </div>
+    </div>
+    <div class="map-title" style="padding-bottom: 5px">
+        <br/>
+        全球恐怖主义发展脉络及重要事件
+
+    </div>
+    <div style="width: 90%;height:750px; overflow: hidden">
+        <iframe src="./earth/testindex.html"  id="iframe" scrolling="yes" frameborder="0">
+        </iframe>
+    </div>
+    <div class="ordinary-excessive">
+        <div class="ordinary-excessive-card">
+            <div class="fry_center">
+                综合各年的恐怖袭击数量、死亡人数、受伤人数、受创国家等数据，上图梳理了全球恐怖主义的发展脉络以及重要事件。1970年初，英美为恐怖袭击的频发区；1976年至1994年，几个骇人听闻的恐怖组织逐渐成立，恐怖主义在暗中蛰伏；1995年开始，恐怖主义快速蔓延发展，1995年至2001年发生的几例恐怖袭击事件带来了重大伤亡——1995年东京地铁沙林毒气事件、1996年斯里兰卡恐怖袭击事件、1998年肯尼亚恐怖袭击事件和2001年著名的911袭击事件分为造成了第二多、第五多、第三多和最多的伤亡人数。2003年美国发动的伊拉克战争给中东地区带来了无尽苦难。从此，西亚地区的恐怖主义彻底爆发，伊拉克成为全球恐怖活动频繁程度、袭击次数和死亡人数均排名第一的国家。直至现在，西亚和北非的许多国家依旧处于被恐怖主义威胁的困境中。
+            </div>
+            <br/>
+        </div>
+    </div>
+    <div id="bottom">
+        <div class="left-right">
+            <div class="left">
+                <div>
+                    <div>
+                        数据来源：
+                    </div>
+                    <a href="https://www.start.umd.edu/gtd/" id="source-link">
+                        <img src="./imgs/logo.gif" alt="GTD: Global Terrorism Database">
+                    </a>
+                </div>
+            </div>
+            <div class="right">
+                <div>
+                    <div>
+                        &nbsp;
+                    </div>
+                    <div style="margin:5px auto 0 0">
+                        数据和代码已开源在 <a href="https://github.com/cafferyz/GTD-visualization/tree/master" style="color: white;font-weight: bold">Github</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="bottom">
+            @北京大学 数据可视化课程作业
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script type="module" src="ourJS/yzh.js"></script>
+<script type="module" src="ourJS/myGeoJS.js"></script>
+<script type="module" src="ourJS/complicate.js"></script>
+<script type="module" src="ourJS/scatterWorld.js"></script>
+<!-- Create an element where the map will take place -->
